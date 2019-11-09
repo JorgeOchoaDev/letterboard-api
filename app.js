@@ -23,19 +23,31 @@ mongoose.connect('mongodb+srv://jorge:Md2^qqPhw4!39CXDJ0F&@letterboard-tlnpa.mon
     });
 
 
-const Movie = mongoose.model('Movie',{name:String})
+const Movie = mongoose.model('Movie',{
+    id:String,
+    title:String,
+    director:String,
+    release: String,
+    exit: String,
+    source: String
+})
 
 
 
 
 app.get('/',(req,res)=>{
-    res.send('get function working')
+    res.send('<h1>get function working</h1>')
 })
 
 app.post('/',(req,res)=>{
     console.log(req.body.name,)
     const release = new Movie ({
-        name: req.body.name
+        id: req.body.id,
+        title: req.body.title,
+        director: req.body.director,
+        release: req.body.release,
+        exit: req.body.exit,
+        source: req.body.source
     })
     release.save()
     .then(()=>res.send('movie saved'))
