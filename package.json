@@ -1,0 +1,22 @@
+{
+  "name": "letterboard-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JorgeOchoaDev/letterboard-api.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JorgeOchoaDev/letterboard-api/issues"
+  },
+  "homepage": "https://github.com/JorgeOchoaDev/letterboard-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
