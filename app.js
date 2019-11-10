@@ -4,6 +4,7 @@ const express =require('express')
 const app = express()
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+require("dotenv").config({ path: "./.env" })
 
 
 
@@ -24,7 +25,7 @@ mongoose.connect('mongodb+srv://jorge:Md2^qqPhw4!39CXDJ0F&@letterboard-tlnpa.mon
 
 
 const Movie = mongoose.model('Movie',{
-    id:String,
+    id: String,
     title:String,
     director:String,
     release: String,
@@ -33,14 +34,13 @@ const Movie = mongoose.model('Movie',{
 })
 
 
-
-
-app.get('/',(req,res)=>{
-    res.send('<h1>get function working</h1>')
+app.get('/getmovies',(req,res)=>{
+    res.send(Movie.find())
+    
 })
 
 app.post('/',(req,res)=>{
-    console.log(req.body.name,)
+    console.log(req.body,)
     const release = new Movie ({
         id: req.body.id,
         title: req.body.title,
@@ -55,4 +55,4 @@ app.post('/',(req,res)=>{
 })
 
 
-app.listen(process.env.PORT, ()=>{console.log('listening on port 3000')})
+app.listen(process.env.PORT, ()=>{console.log('listening on port '+ process.env.PORT)})
