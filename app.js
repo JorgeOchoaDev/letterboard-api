@@ -35,8 +35,14 @@ const Movie = mongoose.model('Movie',{
 
 
 app.get('/getmovies',(req,res)=>{
-    res.send(Movie.find())
-    
+    Movie.find()
+    .then(movies => {
+        res.send(movies);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving data."
+        });
+    });
 })
 
 app.post('/',(req,res)=>{
