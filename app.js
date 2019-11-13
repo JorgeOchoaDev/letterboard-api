@@ -5,6 +5,7 @@ const app = express()
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+var moment = require('moment');
 require("dotenv").config({ path: "./.env" })
 
 
@@ -35,7 +36,8 @@ const Movie = mongoose.model('Movie',{
     director:String,
     release: String,
     exit: String,
-    source: String
+    source: String,
+    epoch: Number
 })
 
 app.post('/login',async (req,res)=>{
@@ -51,32 +53,41 @@ app.post('/usergen',async (req,res)=>{
         hash : hash
     })
     userGen.save()
-    .then(()=>res.send('credential saved'))
+    .then(()=>res.send({message: "credential saved"}))
 })
 
 app.get('/getmovies',(req,res)=>{
     Movie.find()
     .then(movies => {
-        res.send(movies);
+        res.send(movies)
     }).catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving data."
-        });
-    });
+        })
+    })
 })
 
-app.post('/',(req,res)=>{
+app.post('/',async (req,res)=>{
     console.log(req.body,)
-    const release = new Movie ({
-        id: req.body.id,
-        title: req.body.title,
-        director: req.body.director,
-        release: req.body.release,
-        exit: req.body.exit,
-        source: req.body.source
-    })
-    release.save()
-    .then(()=>res.send('movie saved'))
+    const movieCollection = await Movie.find().sort({epoch:-1})
+    const lastEpoch = movieCollection[0].epoch
+    let epoch = moment().unix()
+    if (epoch - lastEpoch > 300){
+        const release = new Movie ({
+            id: req.body.id,
+            title: req.body.title,
+            director: req.body.director,
+            release: req.body.release,
+            exit: req.body.exit,
+            source: req.body.source,
+            epoch: moment().unix()
+        })
+        release.save()
+        .then(()=>res.send({message: "Movie saved!"}))
+    }
+    else {
+        throw new Error("You must wait 5 minutes until you can post another movie!")
+    }
 
 })
 
