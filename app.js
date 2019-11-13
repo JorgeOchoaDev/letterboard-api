@@ -4,6 +4,7 @@ const express =require('express')
 const app = express()
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 require("dotenv").config({ path: "./.env" })
 
 
@@ -19,10 +20,14 @@ mongoose.connect('mongodb+srv://jorge:Md2^qqPhw4!39CXDJ0F&@letterboard-tlnpa.mon
     }).then(() => {
         console.log("Successfully connected to the database");
     }).catch(err => {
-        console.log('Could not connect to the database. Exiting now...', err);
+        console.log('Unable to connect to database. Aborting...', err);
         process.exit();
     });
 
+const Credential = mongoose.model('Credential',{
+    username: String,
+    hash: String
+})
 
 const Movie = mongoose.model('Movie',{
     id: String,
@@ -58,6 +63,16 @@ app.post('/',(req,res)=>{
     release.save()
     .then(()=>res.send('movie saved'))
 
+})
+
+app.post('/signup',async (req,res)=>{
+    let hash = await  bcrypt.hash(req.body.password, 10 );
+    const userGen = new Credential ({
+        username= req.body.username,
+        hash
+    })
+    userGen.save()
+    .then(()=>res.send('credential saved'))
 })
 
 
