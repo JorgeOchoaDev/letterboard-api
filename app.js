@@ -41,6 +41,7 @@ const Movie = mongoose.model('Movie',{
 })
 
 app.post('/login',async (req,res)=>{
+    console.log("login running")
     const loginCredential = await Credential.findOne({username:req.body.username})
     const isValid = await bcrypt.compare(req.body.password, loginCredential.hash)
     res.send({login: isValid})
