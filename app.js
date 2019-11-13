@@ -62,9 +62,7 @@ app.get('/getmovies',(req,res)=>{
     .then(movies => {
         res.send(movies)
     }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving data."
-        })
+        res.status(500).send("Connection error!")
     })
 })
 
@@ -73,7 +71,7 @@ app.post('/',async (req,res)=>{
     const movieCollection = await Movie.find().sort({epoch:-1})
     const lastEpoch = movieCollection[0].epoch
     let epoch = moment().unix()
-    if (epoch - lastEpoch > 300){
+//    if (epoch - lastEpoch > 300){
         const release = new Movie ({
             id: req.body.id,
             title: req.body.title,
@@ -81,14 +79,14 @@ app.post('/',async (req,res)=>{
             release: req.body.release,
             exit: req.body.exit,
             source: req.body.source,
-            epoch: moment().unix()
-        })
+            epoch: epoch
+       })
         release.save()
         .then(()=>res.send({message: "Movie saved!"}))
-    }
-    else {
-        res.status(500).send('You must wait 5 minutes in between submissions!')
-    }
+//    }
+//    else {
+//        res.status(500).send('You must wait 5 minutes in between submissions!')
+//    }
 
 })
 
