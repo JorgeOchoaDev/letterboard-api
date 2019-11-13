@@ -67,9 +67,9 @@ app.get('/getmovies',(req,res)=>{
 })
 
 app.post('/',async (req,res)=>{
-    console.log(req.body,)
-    const movieCollection = await Movie.find().sort({epoch:-1})
-    const lastEpoch = movieCollection[0].epoch
+    console.log(req.body)
+//    const movieCollection = await Movie.find().sort({epoch:-1})
+//    const lastEpoch = movieCollection[0].epoch
     let epoch = moment().unix()
 //    if (epoch - lastEpoch > 300){
         const release = new Movie ({
