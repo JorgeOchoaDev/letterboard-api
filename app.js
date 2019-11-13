@@ -65,11 +65,11 @@ app.post('/',(req,res)=>{
 
 })
 
-app.post('/signup',async (req,res)=>{
-    let hash = await  bcrypt.hash(req.body.password, 10 );
+app.post('/signup',(req,res)=>{
+    let hash = bcrypt.hash(req.body.password, 10 );
     const userGen = new Credential ({
-        username= req.body.username,
-        hash
+        username = req.body.username,
+        hash = hash
     })
     userGen.save()
     .then(()=>res.send('credential saved'))
