@@ -68,10 +68,10 @@ app.get('/getmovies',(req,res)=>{
 
 app.post('/',async (req,res)=>{
     console.log(req.body)
-//    const movieCollection = await Movie.find().sort({epoch:-1})
-//    const lastEpoch = movieCollection[0].epoch
+    const movieCollection = await Movie.find().sort({epoch:-1})
+    const lastEpoch = movieCollection[0].epoch
     let epoch = moment().unix()
-//    if (epoch - lastEpoch > 300){
+    if (epoch - lastEpoch > 300){
         const release = new Movie ({
             id: req.body.id,
             title: req.body.title,
@@ -83,10 +83,10 @@ app.post('/',async (req,res)=>{
        })
         release.save()
         .then(()=>res.send({message: "Movie saved!"}))
-//    }
-//    else {
-//        res.status(500).send('You must wait 5 minutes in between submissions!')
-//    }
+    }
+    else {
+        res.status(500).send('You must wait 5 minutes in between submissions!')
+    }
 
 })
 
