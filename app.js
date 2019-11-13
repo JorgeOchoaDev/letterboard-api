@@ -43,7 +43,7 @@ const Movie = mongoose.model('Movie',{
 app.post('/login',async (req,res)=>{
     const loginCredential = await Credential.findOne({username:req.body.username})
     const isValid = await bcrypt.compare(req.body.password, loginCredential.hash)
-    res.send(isValid)
+    res.send({login: isValid})
 })
 
 app.post('/usergen',async (req,res)=>{
@@ -86,7 +86,7 @@ app.post('/',async (req,res)=>{
         .then(()=>res.send({message: "Movie saved!"}))
     }
     else {
-        throw new Error("You must wait 5 minutes until you can post another movie!")
+        res.status(500).send('You must wait 5 minutes in between submissions!')
     }
 
 })
