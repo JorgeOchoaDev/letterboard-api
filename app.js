@@ -38,6 +38,12 @@ const Movie = mongoose.model('Movie',{
     source: String
 })
 
+app.post('/login',async (req,res)=>{
+    const loginCredential = await Credential.findOne({username:req.body.username})
+    const isValid = await bcrypt.compare(req.body.password, loginCredential.hash)
+    res.send(isValid)
+})
+
 app.post('/usergen',async (req,res)=>{
     let hash = await bcrypt.hash(req.body.password, 10 );
     const userGen = new Credential ({
