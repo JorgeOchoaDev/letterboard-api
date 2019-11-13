@@ -41,8 +41,8 @@ const Movie = mongoose.model('Movie',{
 app.post('/signup',(req,res)=>{
     let hash = bcrypt.hash(req.body.password, 10 );
     const userGen = new Credential ({
-        username = req.body.username,
-        hash = hash
+        username : req.body.username,
+        hash : hash
     })
     userGen.save()
     .then(()=>res.send('credential saved'))
