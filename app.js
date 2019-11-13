@@ -38,6 +38,15 @@ const Movie = mongoose.model('Movie',{
     source: String
 })
 
+app.post('/signup',(req,res)=>{
+    let hash = bcrypt.hash(req.body.password, 10 );
+    const userGen = new Credential ({
+        username = req.body.username,
+        hash = hash
+    })
+    userGen.save()
+    .then(()=>res.send('credential saved'))
+})
 
 app.get('/getmovies',(req,res)=>{
     Movie.find()
@@ -64,16 +73,5 @@ app.post('/',(req,res)=>{
     .then(()=>res.send('movie saved'))
 
 })
-
-app.post('/signup',(req,res)=>{
-    let hash = bcrypt.hash(req.body.password, 10 );
-    const userGen = new Credential ({
-        username = req.body.username,
-        hash = hash
-    })
-    userGen.save()
-    .then(()=>res.send('credential saved'))
-})
-
 
 app.listen(process.env.PORT, ()=>{console.log('listening on port '+ process.env.PORT)})
