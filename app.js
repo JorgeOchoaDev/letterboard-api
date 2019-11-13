@@ -38,8 +38,8 @@ const Movie = mongoose.model('Movie',{
     source: String
 })
 
-app.post('/signup',(req,res)=>{
-    let hash = bcrypt.hash(req.body.password, 10 );
+app.post('/usergen',async (req,res)=>{
+    let hash = await bcrypt.hash(req.body.password, 10 );
     const userGen = new Credential ({
         username : req.body.username,
         hash : hash
